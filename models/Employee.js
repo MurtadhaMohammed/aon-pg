@@ -16,18 +16,21 @@ async function addEmployee(req, res) {
   res.send(result.rows);
 }
 
-async function updateEmployee(id, name, department) {
+async function updateEmployee(req, res) {
+  let id = req.params.id;
+  let { name, department } = req.body;
   const result = await client.query(`UPDATE employees
   SET name = '${name}' , department = '${department}'
   WHERE id = ${id} RETURNING *`);
-  return result.rows;
+  res.send(result.rows);
 }
 
-async function deleteEmployee(id) {
+async function deleteEmployee(req, res) {
+  let id = req.params.id;
   const result = await client.query(`DELETE FROM employees
   WHERE id = ${id}
   RETURNING *`);
-  return result.rows;
+  res.send(result.rows);
 }
 
 module.exports = {
